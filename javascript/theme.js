@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
 
     // link that use for copy and share.
-    const shareableLink = "https://klsmolay.github.io/PortfolioThemeView/";
+    const shareableLink = "https://brotech-studio299.github.io/BroTech_Studio/";
 
     // --- ELEMENT REFERENCES ---
     const openModalButton = document.getElementById('openModalButton');
@@ -139,5 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
         shareToAppSection.classList.add('hidden');
         divider.classList.add('hidden');
     }
+
 
 });

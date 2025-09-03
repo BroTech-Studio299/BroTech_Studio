@@ -32,6 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (newSrc) {
                 portfolioViewer.src = newSrc;
             }
+
+            // --- THIS IS THE ONLY NEW LINE ADDED ---
+            portfolioViewer.scrollIntoView({ behavior: 'smooth', block: 'center' });
         });
     });
 });
@@ -120,8 +123,4 @@ document.addEventListener('DOMContentLoaded', () => {
         shareToAppSection.classList.add('hidden');
         divider.classList.add('hidden');
     }
-
-
 });
-
-

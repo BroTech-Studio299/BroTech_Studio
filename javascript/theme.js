@@ -4,25 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const basicPriceElement = document.getElementById('basic-price');
     const premiumPriceElement = document.getElementById('premium-price');
 
-    // 2. Fetch the price data from our server's API endpoint
-    fetch('/api/book/getPrice')
-        .then(response => response.json())
-        .then(priceInfo => {
-            // This is the data from our server, e.g., { symbol: '₹', plans: { basic: 999, premium: 2000 } }
-
-            // 3. Update the HTML elements with the correct prices
-            if (basicPriceElement) {
-                basicPriceElement.textContent = `(${priceInfo.symbol}${priceInfo.plans.basic})`;
-            }
-
-            if (premiumPriceElement) {
-                premiumPriceElement.textContent = `(${priceInfo.symbol}${priceInfo.plans.premium})`;
-            }
-        })
-        .catch(error => {
-            // If there's an error, we'll log it to the console and the prices won't be displayed
-            console.error('Failed to fetch prices:', error);
-        });
     // -------------------------------------------------------- //
     // Select ALL buttons with the .project-btn class, across both tiers
     const allProjectButtons = document.querySelectorAll('.project-btn');
@@ -142,4 +123,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 });
+
 

@@ -298,14 +298,13 @@ body {
    9. Responsiveness
    ================================================================= */
 @media (max-width: 768px) {
-   .nav-link {
-    font-size: 0.5rem;
-}
     .hero-headline {
         font-size: 2.5rem;
     }
     .how-it-works h2, .final-cta h2, .reviews-link-section h2 {
         font-size: 2rem;
     }
+    .hide-on-mobile {
+        display: none;
+    }
 }
-

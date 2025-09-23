@@ -1,52 +1,124 @@
-// --- Updated Portfolio Logic ---
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. Find the two empty <span> elements we just created in the HTML
-    const basicPriceElement = document.getElementById('basic-price');
-    const premiumPriceElement = document.getElementById('premium-price');
-
-    // -------------------------------------------------------- //
-    // Select ALL buttons with the .project-btn class, across both tiers
-    const allProjectButtons = document.querySelectorAll('.project-btn');
-    const portfolioViewer = document.getElementById('portfolio-viewer');
-
-    // Set the initial view on page load to the first button
-    const defaultButton = allProjectButtons[0];
-    if (defaultButton) {
-        defaultButton.classList.add('active');
-        portfolioViewer.src = defaultButton.getAttribute('data-src');
-    }
-
-    // Add a click listener TO EACH BUTTON
-    allProjectButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            // 1. When a button is clicked, first remove 'active' from ALL buttons
-            allProjectButtons.forEach(btn => {
-                btn.classList.remove('active');
-            });
-
-            // 2. Then, add 'active' ONLY to the one that was just clicked
-            button.classList.add('active');
-
-            // 3. Update the iframe to show the selected project
-            const newSrc = button.getAttribute('data-src');
-            if (newSrc) {
-                portfolioViewer.src = newSrc;
+document.addEventListener('DOMContentLoaded', function () {
+    // --- DATA ---
+    const themesData = {
+        portfolio: {
+            basic: {
+                price: '$15',
+                themes: [
+                    { name: 'Dark-Mode-Brutalist', url: 'https://klsmolay.github.io/Dark-Mode-Brutalist-design-portfolio/' },
+                    { name: 'Cyber-Grid-Neon', url: 'https://klsmolay.github.io/Cyber-Grid-Neon-design-portfolio/' },
+                    { name: 'Blueprint-Sketchbook', url: 'https://klsmolay.github.io/he-Blueprint-Sketchbook-design-portfolio/' },
+                    { name: 'Minimalist-Asymmetric', url: 'https://klsmolay.github.io/Minimalist-Asymmetric-design-portfolio/' },
+                    { name: 'Kyoto-Zen-Garden', url: 'https://klsmolay.github.io/Kyoto-Zen-Garden-design-portfolio/' },
+                    { name: 'Luxury-Editorial', url: 'https://klsmolay.github.io/L-Avenir-Luxury-Editorial-design-portfolio/' }
+                ]
+            },
+            premium: {
+                price: '$30',
+                themes: [
+                    { name: 'Hipper Mona', url: 'https://klsmolay.github.io/HipperMona/' },
+                    { name: 'WorkLoad', url: 'https://klsmolay.github.io/WorkLoad/' },
+                    { name: 'Next-Gen', url: 'https://klsmolay.github.io/Next-Gen/' },
+                    { name: 'Magnetic-pull', url: 'https://klsmolay.github.io/Magnetic-pull/' }
+                ]
             }
-
-            // --- THIS IS THE ONLY NEW LINE ADDED ---
-            portfolioViewer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        },
+        cafe: [
+            { name: 'Soul', url: 'https://klsmolay.github.io/menu-design/' },
+        ],
+        ecommerce: [
+        ]
+    };
+    // --- THEME SELECTION LOGIC ---
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    const themesDisplayContainer = document.getElementById('themes-display');
+    const portfolioViewer = document.getElementById('portfolio-viewer');
+    function renderThemes(category, activeButton) {
+        const categoryData = themesData[category];
+        themesDisplayContainer.classList.remove('visible');
+        setTimeout(() => {
+            themesDisplayContainer.innerHTML = ''; // Clear previous content
+            // Check if the category is portfolio to render tiers
+            if (category === 'portfolio') {
+                Object.entries(categoryData).forEach(([tierName, tierData]) => {
+                    const tierSection = document.createElement('div');
+                    tierSection.className = 'tier-section';
+                    const tierTitle = document.createElement('h3');
+                    tierTitle.className = 'tier-title';
+                    tierTitle.innerHTML = `${tierName.charAt(0).toUpperCase() + tierName.slice(1)} Designs <span class="tier-price">${tierData.price}</span>`;
+                    tierSection.appendChild(tierTitle);
+                    
+                    const buttonsContainer = document.createElement('div');
+                    buttonsContainer.className = 'tier-buttons-container';
+                    tierData.themes.forEach(theme => {
+                        const button = document.createElement('button');
+                        button.className = 'theme-btn';
+                        button.textContent = theme.name;
+                        button.dataset.src = theme.url;
+                        buttonsContainer.appendChild(button);
+                    });
+                    tierSection.appendChild(buttonsContainer);
+                    themesDisplayContainer.appendChild(tierSection);
+                });
+            } else { // Render other categories directly
+                if (!categoryData || categoryData.length === 0) {
+                    themesDisplayContainer.innerHTML = `<p class="text-gray-400">No themes available for this category yet.</p>`;
+                    portfolioViewer.src = 'about:blank';
+                } else {
+                    categoryData.forEach(theme => {
+                        const button = document.createElement('button');
+                        button.className = 'theme-btn';
+                        button.textContent = theme.name;
+                        button.dataset.src = theme.url;
+                        themesDisplayContainer.appendChild(button);
+                    });
+                }
+            }
+            addThemeButtonListeners();
+            const firstThemeButton = themesDisplayContainer.querySelector('.theme-btn');
+            if (firstThemeButton) {
+                firstThemeButton.classList.add('active');
+                portfolioViewer.src = firstThemeButton.dataset.src;
+            }
+            
+            const containerRect = themesDisplayContainer.parentElement.getBoundingClientRect();
+            const buttonRect = activeButton.getBoundingClientRect();
+            const indicatorLeft = buttonRect.left - containerRect.left + (buttonRect.width / 2);
+            themesDisplayContainer.style.setProperty('--indicator-pos', `${indicatorLeft}px`);
+            themesDisplayContainer.classList.add('visible');
+        }, 300);
+    }
+    function addThemeButtonListeners() {
+        const themeButtons = themesDisplayContainer.querySelectorAll('.theme-btn');
+        themeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                themeButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                const newSrc = button.dataset.src;
+                if (newSrc) {
+                    portfolioViewer.src = newSrc;
+                }
+                portfolioViewer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        });
+    }
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            categoryButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+            const category = this.dataset.category;
+            renderThemes(category, this);
         });
     });
-});
-
-// refer
-// This wrapper makes sure the code doesn't run until the HTML page is fully loaded.
-document.addEventListener('DOMContentLoaded', () => {
-
-    // link that use for copy and share.
-    const shareableLink = "https://brotech-studio299.github.io/BroTech_Studio/";
-
-    // --- ELEMENT REFERENCES ---
+    const initialActiveButton = document.querySelector('.category-btn.active');
+    if(initialActiveButton) {
+        setTimeout(() => {
+            renderThemes('portfolio', initialActiveButton);
+        }, 100);
+    }
+    // --- MODAL LOGIC (MERGED FROM YOUR SCRIPT) ---
+    // const shareableLink = "https://brotech-studio299.github.io/BroTech_Studio/";
+    const shareableLink = "https://brotechstudio.qzz.io/";
     const openModalButton = document.getElementById('openModalButton');
     const closeModalButton = document.getElementById('closeModalButton');
     const shareModal = document.getElementById('shareModal');
@@ -57,17 +129,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const shareToAppSection = document.getElementById('shareToAppSection');
     const divider = document.getElementById('divider');
     const linkInput = document.getElementById('linkInput');
-
-    // Make sure all elements were found before proceeding
     if (!openModalButton || !closeModalButton || !shareModal || !linkInput) {
         console.error("Modal elements could not be found. Check your HTML IDs.");
-        return; // Stop the script if essential elements are missing
+        return;
     }
-
-    // Set the input field to show the shareable link
     linkInput.value = shareableLink;
-
-    // --- MODAL FUNCTIONS ---
     const openModal = () => {
         shareModal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
@@ -81,16 +147,11 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = '';
         modalOverlay.classList.remove('modal-overlay-enter-active');
         shareModal.querySelector('.modal-card-enter').classList.remove('modal-card-enter-active');
-        // Hide the modal after the animation finishes (200ms)
         setTimeout(() => shareModal.classList.add('hidden'), 200);
     };
-
-    // --- EVENT LISTENERS ---
     openModalButton.addEventListener('click', openModal);
     closeModalButton.addEventListener('click', closeModal);
     modalOverlay.addEventListener('click', closeModal);
-
-    // "Copy Link" Button Logic
     copyLinkButton.addEventListener('click', async () => {
         try {
             await navigator.clipboard.writeText(shareableLink);
@@ -101,12 +162,9 @@ document.addEventListener('DOMContentLoaded', () => {
             copyButtonText.textContent = 'Error!';
         }
     });
-
-    // "Share to App" Button Logic (only shows on supported devices like phones)
     if (navigator.share) {
         shareToAppSection.classList.remove('hidden');
         divider.classList.remove('hidden');
-
         shareToAppButton.addEventListener('click', async () => {
             const shareData = {
                 title: 'Check out BroTech!',
@@ -119,8 +177,5 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('Share failed:', err);
             }
         });
-    } else {
-        shareToAppSection.classList.add('hidden');
-        divider.classList.add('hidden');
     }
 });

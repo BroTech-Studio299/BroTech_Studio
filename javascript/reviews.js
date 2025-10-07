@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         {
             name: "Rohan Kumar", country: "India", flagCode: "in", avatarText: "RK", theme: "Next-Gen (Premium)",
-            reviewText: "After getting a job, I knew I had to upgrade my old college portfolio. The Next Gen theme is perfect for showcasing my professional projects in detail. It looks very polished and was worth the investment for my career growth. also i was able to add and remove some part which i like and don't worth the money."
+            reviewText: "I knew I had to upgrade my old college portfolio. The Next Gen theme is perfect for showcasing my professional projects in detail. It looks very polished and was worth the investment for my career growth. also i was able to add and remove section which i don't like, worth the money."
         },
         {
             name: "Arjit ", country: "India", flagCode: "in", avatarText: "A", theme: "Custom Design",

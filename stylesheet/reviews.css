@@ -221,37 +221,35 @@ h1 {
 /* =================================================================
    5. Footer & Responsiveness
    ================================================================= */
+.footer {
+    background-color: var(--color-surface);
+    color: var(--color-text-secondary);
+    text-align: center;
+    padding: 1.5rem;
+    margin-top: 2rem;
+    border-top: 1px solid var(--color-border);
+}
+
 .footer-container {
-    max-width: 1400px;
+    max-width: 4xl;
     margin: 0 auto;
-    margin-bottom: 10px;
-    margin-top: 5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
 }
 
 .footer-links {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+    margin-bottom: 1rem;
 }
-
-.footer-links a {
+.footer-link, .footer-links a {
     color: var(--color-text-secondary);
     text-decoration: none;
-    font-weight: 500;
-    transition: color var(--transition-speed) ease;
+    transition: color var(--transition-speed);
 }
 
-.footer-links a:hover {
+.footer-link:hover, .footer-links a:hover {
     color: var(--color-primary);
 }
 
 .footer-divider {
-    color: var(--color-border);
+    margin: 0 0.75rem;
 }
 
 /* Make it look good on mobile */

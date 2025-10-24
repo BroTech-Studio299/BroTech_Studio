@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const themesData = {
         portfolio: {
             basic: {
-                price: '$15',
+                price: '$50',
                 themes: [
                     { name: 'Dark-Mode-Brutalist', url: 'https://klsmolay.github.io/Dark-Mode-Brutalist-design-portfolio/' },
                     { name: 'Cyber-Grid-Neon', url: 'https://klsmolay.github.io/Cyber-Grid-Neon-design-portfolio/' },
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 ]
             },
             premium: {
-                price: '$30',
+                price: '$150',
                 themes: [
                     { name: 'Hipper Mona', url: 'https://klsmolay.github.io/HipperMona/' },
                     { name: 'WorkLoad', url: 'https://klsmolay.github.io/WorkLoad/' },
@@ -179,3 +179,4 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+

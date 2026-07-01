@@ -33,6 +33,22 @@ document.addEventListener('DOMContentLoaded', function () {
     const categoryButtons = document.querySelectorAll('.category-btn');
     const themesDisplayContainer = document.getElementById('themes-display');
     const portfolioViewer = document.getElementById('portfolio-viewer');
+    const sampleWebsiteLink = document.getElementById('sample-website-link');
+
+    function updateSampleWebsiteButton(selectedButton) {
+        if (!sampleWebsiteLink) return;
+
+        if (selectedButton && selectedButton.dataset.src) {
+            sampleWebsiteLink.href = selectedButton.dataset.src;
+            sampleWebsiteLink.classList.remove('disabled');
+            sampleWebsiteLink.textContent = `Open ${selectedButton.textContent} Sample`;
+        } else {
+            sampleWebsiteLink.href = '#';
+            sampleWebsiteLink.classList.add('disabled');
+            sampleWebsiteLink.textContent = 'Open Sample Website';
+        }
+    }
+
     function renderThemes(category, activeButton) {
         const categoryData = themesData[category];
         themesDisplayContainer.classList.remove('visible');
@@ -64,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (!categoryData || categoryData.length === 0) {
                     themesDisplayContainer.innerHTML = `<p class="text-gray-400">No themes available for this category yet.</p>`;
                     portfolioViewer.src = 'about:blank';
+                    updateSampleWebsiteButton(null);
                 } else {
                     categoryData.forEach(theme => {
                         const button = document.createElement('button');
@@ -79,6 +96,9 @@ document.addEventListener('DOMContentLoaded', function () {
             if (firstThemeButton) {
                 firstThemeButton.classList.add('active');
                 portfolioViewer.src = firstThemeButton.dataset.src;
+                updateSampleWebsiteButton(firstThemeButton);
+            } else {
+                updateSampleWebsiteButton(null);
             }
             
             const containerRect = themesDisplayContainer.parentElement.getBoundingClientRect();
@@ -98,6 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (newSrc) {
                     portfolioViewer.src = newSrc;
                 }
+                updateSampleWebsiteButton(button);
                 portfolioViewer.scrollIntoView({ behavior: 'smooth', block: 'center' });
             });
         });
